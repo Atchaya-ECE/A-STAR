@@ -2,7 +2,7 @@
 <h3>Name: V.Atchaya       </h3>
 <h3>Register Number: 212224060031          </h3>
 <H3>Aim:</H3>
-<p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
+<p>To Implement A* Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
 
 ``````
@@ -117,3 +117,6 @@ G 0 <br>
 <h2>Sample Output</h2>
 <hr>
 Path found: ['A', 'E', 'D', 'G']
+
+Output:
+  A* Search algorithm for a Graph using Python 3 is implemented.
