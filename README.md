@@ -4,9 +4,6 @@
 <H3>Aim:</H3>
 <p>To Implement A* Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
-
-``````
-// A* Search Algorithm
 1.  Initialize the open list
 2.  Initialize the closed list
     put the starting node on the open 
@@ -48,8 +45,92 @@
     e) push q on the closed list
     end (while loop)
 
-``````
+# Program
+```
+import heapq
 
+def a_star(graph, heuristics, start, goal):
+    open_list = []
+    heapq.heappush(open_list, (0, start))  # (f, node)
+
+    parent = {start: None}
+    g_cost = {start: 0}
+
+    closed_list = set()
+
+    while open_list:
+        f, current = heapq.heappop(open_list)
+
+        if current == goal:
+            # reconstruct path
+            path = []
+            while current is not None:
+                path.append(current)
+                current = parent[current]
+            return path[::-1]  # reverse
+
+        closed_list.add(current)
+
+        for neighbor, cost in graph[current]:
+            temp_g = g_cost[current] + cost
+            temp_f = temp_g + heuristics[neighbor]
+
+            # Skip if in closed with better cost
+            if neighbor in closed_list and temp_f >= g_cost.get(neighbor, float('inf')):
+                continue
+
+            # Skip if better path exists in open list
+            if temp_f < g_cost.get(neighbor, float('inf')):
+                parent[neighbor] = current
+                g_cost[neighbor] = temp_g
+                heapq.heappush(open_list, (temp_f, neighbor))
+
+    return None
+
+
+# -------------------------
+# MAIN INPUT
+# -------------------------
+
+# Read number of nodes and edges
+n, e = map(int, input().split())
+
+graph = {}
+
+# Read graph edges
+for _ in range(e):
+    u, v, w = input().split()
+    w = int(w)
+
+    if u not in graph:
+        graph[u] = []
+    if v not in graph:
+        graph[v] = []
+
+    graph[u].append((v, w))
+    graph[v].append((u, w))   # undirected graph
+
+# Read heuristics (n lines)
+heuristics = {}
+start_node = None
+goal_node = None
+
+for idx in range(n):
+    node, h = input().split()
+    h = int(h)
+    heuristics[node] = h
+
+    if idx == 0:
+        start_node = node
+    if h == 0:
+        goal_node = node
+
+# Run A* Algorithm
+path = a_star(graph, heuristics, start_node, goal_node)
+
+print("Path found:", path)
+
+```
 <hr>
 <h2>Sample Graph I</h2>
 <hr>
